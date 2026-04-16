@@ -27,3 +27,15 @@ When running locally in visual studio:
 ```
 DB__DefaultConnection: <postgresql connection string>
 ```
+## Local dev environment
+
+### Docker
+```bash
+docker compose up -d -f docker-compose.dev.yaml
+```
+
+### Podman
+```bash
+podman compose up -d -f docker-compose.dev.yaml
+```
+
