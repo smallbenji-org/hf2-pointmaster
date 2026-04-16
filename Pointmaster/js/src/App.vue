@@ -14,7 +14,7 @@
   --secondary-3: #dee2e6;
   --secondary-4: #495057;
   --danger: #ff4d4d;
-
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1 {
