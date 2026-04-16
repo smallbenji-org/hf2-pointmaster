@@ -294,3 +294,5 @@ pointMaster/js/package-lock.json
 pointMaster/js/dist
 pointMaster/wwwroot/js/dist
 .env
+
+node_modules
