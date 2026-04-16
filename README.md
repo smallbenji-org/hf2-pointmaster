@@ -2,8 +2,8 @@
 The master of controlling points
 
 ## How to run?
-Node: v20.20.0
-Postgresql: v16
+- Node: v20.20.0
+- Postgresql: v16
 
 ### Build frontend
 ```bash
