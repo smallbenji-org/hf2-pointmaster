@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "prepare",
+            "program": "${workspaceFolder}/Pointmaster/bin/Debug/net10.0/Pointmaster.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Pointmaster",
+            "console": "internalConsole",
+            "envFile": "${workspaceFolder}/.env",
+            "stopAtEntry": false
+        }
+    ]
+}
