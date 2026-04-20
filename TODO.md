@@ -3,12 +3,12 @@
 - Opret API struktur
 - Importer design guide
 <!-- - Opsæt basic model struktur -->
-- Opret interface og in memory DB, for nu
+<!-- - Opret interface og in memory DB, for nu -->
 
 ## Vue:
 <!-- - Opret projekt -->
 <!-- - Opsæt pinia -->
-- Opsæt basic layout
+<!-- - Opsæt basic layout -->
 
 ## Sider:
 - Rank liste
