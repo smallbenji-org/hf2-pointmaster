@@ -16,6 +16,7 @@
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
     padding: 1rem;
     display: flex;
+    z-index: 1;
     a {
         color: black;
         text-decoration: none;
