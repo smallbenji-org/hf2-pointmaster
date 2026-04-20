@@ -5,7 +5,9 @@ import Topbar from './components/topbar.vue';
 
 <template>
   <topbar></topbar>
-  <router-view></router-view>
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
 <style lang="scss">
