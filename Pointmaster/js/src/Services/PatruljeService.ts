@@ -8,7 +8,7 @@ export default class PatruljeService {
                 method: "GET",
             });
 
-            return response.data;
+            return Array.isArray(response.data) ? response.data : [];
         } catch {
             return [];
         }
