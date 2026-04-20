@@ -6,8 +6,8 @@
 - Opret interface og in memory DB, for nu
 
 ## Vue:
-- Opret projekt
-- Opsæt pinia
+<!-- - Opret projekt -->
+<!-- - Opsæt pinia -->
 - Opsæt basic layout
 
 ## Sider:
