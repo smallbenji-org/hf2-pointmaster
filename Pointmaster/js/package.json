@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "axios": "^1.15.0",
+    "buefy": "^3.0.5",
+    "bulma": "^0.9.4",
+    "esbuild": "^0.28.0",
     "pinia": "^3.0.4",
     "sass-embedded": "^1.99.0",
     "vue": "^3.5.32",

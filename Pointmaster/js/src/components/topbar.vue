@@ -18,7 +18,7 @@
     display: flex;
     z-index: 1;
     a {
-        color: black;
+        // color: black;
         text-decoration: none;
     }
 

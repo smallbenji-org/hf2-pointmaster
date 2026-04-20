@@ -12,6 +12,7 @@ export default defineConfig({
   },
   build: {
     outDir: "../wwwroot/",
-    emptyOutDir: true
+    emptyOutDir: true,
+    cssMinify: "esbuild"
   }
 })

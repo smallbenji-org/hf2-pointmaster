@@ -3,28 +3,18 @@
         <div class="patruljer-topbar">
             Patruljer
             <div class="actions">
-                <button class="button primary">Opret patrulje</button>
+                <BButton type="primary">Opret patrulje</BButton>
             </div>
         </div>
-        <table>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Navn
-                </th>
-            </tr>
-            <tr v-for="patrulje in PATRULJER">
-                <td>{{ patrulje.id }}</td>
-                <td>{{ patrulje.name }}</td>
-            </tr>
-        </table>
+        <BTable :data="PATRULJER" :columns="[{ field: 'id' }, { field: 'name' }]">
+
+        </BTable>
     </div>
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 import { usePatruljeStore } from '../Modules/PatruljeModule';
+import { BButton } from 'buefy';
 
 const patruljeStore = usePatruljeStore();
 const { PATRULJER } = storeToRefs(patruljeStore);
@@ -47,6 +37,7 @@ const { PATRULJER } = storeToRefs(patruljeStore);
         background-color: rgba(0,0,0, 0.05);
         padding: 1rem;
         align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
 }
 </style>
