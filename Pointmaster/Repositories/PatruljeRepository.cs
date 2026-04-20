@@ -5,6 +5,7 @@ namespace Pointmaster.Repositories
         void AddPatrulje(Patrulje data);
         void AddPatruljeRange(List<Patrulje> data);
         Patrulje GetPatruljeById(int Id);
+        List<Patrulje> GetAll();
     }
 
     public class DummyPatruljeRepository : IPatruljeRepository
@@ -24,6 +25,11 @@ namespace Pointmaster.Repositories
         public void AddPatruljeRange(List<Patrulje> data)
         {
             _patruljes.AddRange(data);
+        }
+
+        public List<Patrulje> GetAll()
+        {
+            return _patruljes;
         }
     }
 }

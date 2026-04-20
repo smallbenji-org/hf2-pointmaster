@@ -2,6 +2,13 @@ namespace Pointmaster
 {
     public class Patrulje
     {
+        public Patrulje() {}
+
+        public Patrulje(string name)
+        {
+            this.Name = name;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
     }

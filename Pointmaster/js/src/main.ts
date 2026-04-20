@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router';
 import { createPinia } from 'pinia';
 import Buefy from 'buefy';
-// import 'bulma/bulma.scss'
+// import 'bulma/bulma.sass'
 import 'buefy/dist/css/buefy.css'
 const app = createApp(App);
 

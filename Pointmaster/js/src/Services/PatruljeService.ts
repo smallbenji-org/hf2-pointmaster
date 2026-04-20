@@ -13,4 +13,23 @@ export default class PatruljeService {
             return [];
         }
     }
+
+    public async addPatrulje(name: string): Promise<boolean> {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/patrulje`,
+                method: "POST",
+                data: JSON.stringify(name),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status == 200)
+                return true;
+            return false;
+        } catch {
+            return false;
+        }
+    }
 }

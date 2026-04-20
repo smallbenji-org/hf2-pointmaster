@@ -11,6 +11,15 @@ import Topbar from './components/topbar.vue';
 </template>
 
 <style lang="scss">
+:root {
+  color-scheme: light;
+  overflow-y: auto;
+
+}
+
+body {
+  overflow-y: auto;
+}
 // :root {
 //   --primary: #007bff;
 //   --primary-header: #004080;
