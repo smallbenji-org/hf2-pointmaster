@@ -1,4 +1,4 @@
 declare type Patrulje = {
-    Id: number
-    Name: string
+    id: number
+    name: string
 }
