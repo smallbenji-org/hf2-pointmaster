@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import Topbar from './components/topbar.vue';
+
 </script>
 
 <template>
+  <topbar></topbar>
   <router-view></router-view>
 </template>
 
@@ -15,6 +18,10 @@
   --secondary-4: #495057;
   --danger: #ff4d4d;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
 }
 
 h1 {
