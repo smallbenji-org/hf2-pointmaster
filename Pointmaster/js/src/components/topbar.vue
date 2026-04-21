@@ -18,6 +18,16 @@ import { BNavbar, BNavbarItem } from 'buefy';
                     Patruljer
                 </router-link>
             </b-navbar-item>
+            <b-navbar-item tag="div">
+                <router-link to="/poster" class="button is-primary">
+                    Poster
+                </router-link>
+            </b-navbar-item>
+            <b-navbar-item tag="div">
+                <router-link to="/point" class="button is-primary">
+                    Point
+                </router-link>
+            </b-navbar-item>
         </template>
     </b-navbar>
 </template>
