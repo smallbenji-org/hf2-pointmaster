@@ -11,6 +11,7 @@ namespace Pointmaster.Repositories
     public class DummyPatruljeRepository : IPatruljeRepository
     {
         private List<Patrulje> _patruljes = [];
+        private int idCount = 0;
 
         public Patrulje GetPatruljeById(int Id)
         {
@@ -19,6 +20,8 @@ namespace Pointmaster.Repositories
 
         public void AddPatrulje(Patrulje data)
         {
+            data.Id = idCount;
+            idCount++;
             _patruljes.Add(data);
         }
 
