@@ -46,6 +46,14 @@ namespace Pointmaster.Controllers
             return Ok(data);
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Index([FromBody] int Id)
+        {
+            await pointRepository.DeletePoint(Id);
+
+            return Ok();
+        }
+
         public class PointDTO
         {
             public int point { get; set; }

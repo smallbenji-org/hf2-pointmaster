@@ -34,4 +34,25 @@ export default class PointService {
             return false;
         }
     }
+
+    public async deletePoint(data: number): Promise<boolean> {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/points`,
+                method: "DELETE",
+                data: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200) {
+                return true;
+            }
+
+            return false;
+        } catch {
+            return false;
+        }
+    }
 }

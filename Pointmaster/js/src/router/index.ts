@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         beforeEnter: async () => {
             const patruljeStore = usePatruljeStore();
-            patruljeStore.GET_PATRULJER();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {
@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
         component: Patruljer,
         beforeEnter: async () => {
             const patruljeStore = usePatruljeStore();
-            patruljeStore.GET_PATRULJER();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {
@@ -31,9 +31,9 @@ const routes: RouteRecordRaw[] = [
             const pointStore = usePointStore();
             const postStore = usePostStore();
             const patruljeStore = usePatruljeStore();
-            pointStore.GET_POINTS();
-            postStore.GET_POSTS();
-            patruljeStore.GET_PATRULJER();
+            await pointStore.GET_POINTS();
+            await postStore.GET_POSTS();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {
@@ -41,7 +41,7 @@ const routes: RouteRecordRaw[] = [
         component: Post,
         beforeEnter: async () => {
             const postStore = usePostStore();
-            postStore.GET_POSTS();
+            await postStore.GET_POSTS();
         }
     }
 ]

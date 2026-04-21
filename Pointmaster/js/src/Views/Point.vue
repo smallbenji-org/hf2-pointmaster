@@ -9,7 +9,37 @@
             </div>
         </div>
         <div class="container">
-            <BTable :data="POINT" :columns="columns"></BTable>
+            <BTable :data="POINT">
+                <BTableColumn field="id" label="ID" v-slot="props">
+                    {{ props.row.id }}
+                </BTableColumn>
+
+                <BTableColumn field="patrulje.name" label="Patrulje" v-slot="props">
+                    {{ props.row.patrulje.name }}
+                </BTableColumn>
+
+                <BTableColumn field="post.name" label="Post" v-slot="props">
+                    {{ props.row.post.name }}
+                </BTableColumn>
+
+                <BTableColumn field="points" label="Point" v-slot="props">
+                    {{ props.row.points }}
+                </BTableColumn>
+
+                <BTableColumn field="turnout" label="Turnout" v-slot="props">
+                    {{ props.row.turnout }}
+                </BTableColumn>
+
+                <BTableColumn label="Handlinger" v-slot="props">
+                    <div class="buttons">
+                        <BButton
+                            type="is-small is-danger"
+                            @click="deletePoint(props.row.id)">
+                            Slet
+                        </BButton>
+                    </div>
+                </BTableColumn>
+            </BTable>
         </div>
         <BModal
             v-model="open"
@@ -58,7 +88,7 @@
 import { usePatruljeStore } from '@/Modules/PatruljeModule';
 import { usePointStore } from '@/Modules/PointModule';
 import { usePostStore } from '@/Modules/PostModule';
-import { BButton, BTable, BModal, BSelect, BInput, BField } from 'buefy';
+import { BButton, BTable, BModal, BSelect, BInput, BField, BTableColumn } from 'buefy';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
@@ -69,28 +99,28 @@ const { POINT } = storeToRefs(pointStore);
 const { PATRULJER } = storeToRefs(patruljeStore);
 const { POST } = storeToRefs(postStore);
 
-const columns = [
-    {
-        field: "id",
-        label: "ID"
-    },
-    {
-        field: "points",
-        label: "Point"
-    },
-    {
-        field: "turnout",
-        label: "Turnout"
-    },
-    {
-        field: "patrulje.name",
-        label: "Patrulje"
-    },
-    {
-        field: "post.name",
-        label: "Post"
-    }
-];
+// const columns = [
+//     {
+//         field: "id",
+//         label: "ID"
+//     },
+//     {
+//         field: "patrulje.name",
+//         label: "Patrulje"
+//     },
+//     {
+//         field: "post.name",
+//         label: "Post"
+//     },
+//     {
+//         field: "points",
+//         label: "Point"
+//     },
+//     {
+//         field: "turnout",
+//         label: "Turnout"
+//     },
+// ];
 
 const open = ref(false);
 const data = ref<PointDTO>({
@@ -114,6 +144,11 @@ const createPoint = async () => {
 
     open.value = false;
 
+    await pointStore.GET_POINTS();
+}
+
+const deletePoint = async (data: number) => {
+    await pointStore.DELETE_POINT(data);
     await pointStore.GET_POINTS();
 }
 

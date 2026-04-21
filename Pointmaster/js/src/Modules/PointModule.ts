@@ -22,9 +22,15 @@ export const usePointStore = defineStore('Point', () => {
         return retval;
     }
 
+    async function DELETE_POINT(data: number) {
+        const retval = await pointService.deletePoint(data);
+
+        return retval;
+    }
+
     return {
         Point,
         POINT,
-        GET_POINTS, CREATE_POINT
+        GET_POINTS, CREATE_POINT, DELETE_POINT
     }
 });
