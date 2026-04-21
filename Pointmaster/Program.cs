@@ -11,7 +11,7 @@ builder.Services.Configure<PointMasterConfig>(configs);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IPostRepository, DummyPostRepository>();
-builder.Services.AddSingleton<IPatruljeRepository, DummyPatruljeRepository>();
+builder.Services.AddSingleton<IPatruljeRepository, PatruljeRepository>();
 builder.Services.AddSingleton<IPointRepository, DummyPointRepository>();
 
 var app = builder.Build();
