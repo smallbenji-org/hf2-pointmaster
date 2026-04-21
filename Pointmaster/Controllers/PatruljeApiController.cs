@@ -16,20 +16,6 @@ namespace Pointmaster.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // var retval = new List<Patrulje>
-            // {
-            //     new Patrulje
-            //     {
-            //         Id = 1,
-            //         Name = "Troppen"
-            //     },
-            //     new Patrulje
-            //     {
-            //         Id = 2,
-            //         Name = "Ravnene"
-            //     }
-            // };
-
             var retval = patruljeRepository.GetAll();
 
             return Ok(retval);
