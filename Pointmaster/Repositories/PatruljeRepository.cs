@@ -64,8 +64,8 @@ namespace Pointmaster.Repositories
         public async Task AddPatrulje(Patrulje data)
         {
             const string sql = @"
-            INSERT INTO patruljer (id, name)
-            VALUES (@Id, @Name)
+            INSERT INTO patruljer (name)
+            VALUES (@Name)
             ";
             using var conn = db;
             await conn.ExecuteAsync(sql, data);

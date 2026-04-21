@@ -14,17 +14,17 @@ namespace Pointmaster.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var retval = patruljeRepository.GetAll();
+            var retval = await patruljeRepository.GetAll();
 
             return Ok(retval);
         }
 
         [HttpPost]
-        public IActionResult Index([FromBody] string name)
+        public async Task<IActionResult> Index([FromBody] string name)
         {
-            patruljeRepository.AddPatrulje(new Patrulje(name));
+            await patruljeRepository.AddPatrulje(new Patrulje(name));
 
             return Ok();
         }
