@@ -24,7 +24,7 @@ namespace Pointmaster.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var retval = pointRepository.GetAll();
+            var retval = await pointRepository.GetAll();
 
             return Ok(retval);
         }
