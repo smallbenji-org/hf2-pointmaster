@@ -9,6 +9,7 @@ namespace Pointmaster.Repositories
     public class DummyPostRepository : IPostRepository
     {
         private List<Post> _posts = [];
+        private int idCount = 0;
 
         public Post GetPostById(int Id)
         {
@@ -17,6 +18,8 @@ namespace Pointmaster.Repositories
 
         public void AddPost(Post data)
         {
+            data.Id = idCount;
+            idCount++;
             _posts.Add(data);
         }
     }

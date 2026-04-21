@@ -11,6 +11,7 @@ namespace Pointmaster.Repositories
     public class DummyPointRepository : IPointRepository
     {
         private List<Point> _points = [];
+        private int idCount = 0;
 
         public Point GetPointById(int Id)
         {
@@ -24,6 +25,8 @@ namespace Pointmaster.Repositories
 
         public void AddPoint(Point point)
         {
+            point.Id = idCount;
+            idCount++;
             _points.Add(point);
         }
 
