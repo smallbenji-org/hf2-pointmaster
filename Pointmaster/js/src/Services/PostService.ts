@@ -19,7 +19,10 @@ export default class PostService {
             const response: AxiosResponse = await axios({
                 url: `/api/v1/post`,
                 method: "POST",
-                data: JSON.stringify(name)
+                data: JSON.stringify(name),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (response.status == 200) {
