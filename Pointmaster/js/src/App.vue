@@ -17,9 +17,9 @@ import Topbar from '@/components/topbar.vue';
 
 }
 
-body {
-  overflow-y: auto;
-}
+// body {
+//   overflow-y: auto;
+// }
 // :root {
 //   --primary: #007bff;
 //   --primary-header: #004080;
