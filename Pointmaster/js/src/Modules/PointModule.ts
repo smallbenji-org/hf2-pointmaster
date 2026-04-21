@@ -16,9 +16,15 @@ export const usePointStore = defineStore('Point', () => {
         return data;
     }
 
+    async function CREATE_POINT(data: PointDTO) {
+        const retval = await pointService.createPoint(data);
+
+        return retval;
+    }
+
     return {
         Point,
         POINT,
-        GET_POINTS
+        GET_POINTS, CREATE_POINT
     }
 });

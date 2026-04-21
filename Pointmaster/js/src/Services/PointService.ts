@@ -13,4 +13,25 @@ export default class PointService {
             return [];
         }
     }
+
+    public async createPoint(data: PointDTO): Promise<boolean> {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/points`,
+                method: "POST",
+                data: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200){
+                return true
+            }
+
+            return false;
+        } catch {
+            return false;
+        }
+    }
 }

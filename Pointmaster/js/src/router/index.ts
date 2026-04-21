@@ -29,7 +29,11 @@ const routes: RouteRecordRaw[] = [
         component: Point,
         beforeEnter: async () => {
             const pointStore = usePointStore();
+            const postStore = usePostStore();
+            const patruljeStore = usePatruljeStore();
             await pointStore.GET_POINTS();
+            await postStore.GET_POSTS();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {

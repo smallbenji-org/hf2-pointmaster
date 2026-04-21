@@ -15,3 +15,10 @@ declare type Post = {
     id: number
     name: string
 }
+
+declare type PointDTO = {
+    point: number
+    turnout: number
+    patrulje: number
+    post: number
+}
