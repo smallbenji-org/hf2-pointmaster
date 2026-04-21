@@ -4,9 +4,6 @@
         <p v-for="patrulje in PATRULJER">
             {{ patrulje.name }}
         </p>
-        <router-link to="/test" class="button">
-            Go to test
-        </router-link>
     </div>
 </template>
 <script lang="ts" setup>

@@ -14,13 +14,6 @@ const routes: RouteRecordRaw[] = [
         }
     },
     {
-        path: "/test",
-        component: Test,
-        beforeEnter: async () => {
-            console.log("entering Test");
-        }
-    },
-    {
         path: "/patruljer",
         component: Patruljer,
         beforeEnter: async () => {
