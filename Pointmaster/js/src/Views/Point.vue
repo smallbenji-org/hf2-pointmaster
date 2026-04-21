@@ -88,9 +88,9 @@ const data = ref<PointDTO>({
     turnout: 0
 });
 
-const createPoint = () => {
+const createPoint = async () => {
     if (data.value){
-        pointStore.CREATE_POINT(data.value);
+        await pointStore.CREATE_POINT(data.value);
     }
 
     data.value = {
@@ -102,7 +102,7 @@ const createPoint = () => {
 
     open.value = false;
 
-    pointStore.GET_POINTS();
+    await pointStore.GET_POINTS();
 }
 
 </script>
