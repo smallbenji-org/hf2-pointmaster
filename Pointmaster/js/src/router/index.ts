@@ -4,6 +4,8 @@ import { usePatruljeStore } from "@/Modules/PatruljeModule";
 import Patruljer from "@/Views/Patruljer.vue";
 import Point from "@/Views/Point.vue";
 import { usePointStore } from "@/Modules/PointModule";
+import Post from "@/Views/Post.vue";
+import { usePostStore } from "@/Modules/PostModule";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -11,7 +13,7 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         beforeEnter: async () => {
             const patruljeStore = usePatruljeStore();
-            patruljeStore.GET_PATRULJER();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {
@@ -19,7 +21,7 @@ const routes: RouteRecordRaw[] = [
         component: Patruljer,
         beforeEnter: async () => {
             const patruljeStore = usePatruljeStore();
-            patruljeStore.GET_PATRULJER();
+            await patruljeStore.GET_PATRULJER();
         }
     },
     {
@@ -27,7 +29,15 @@ const routes: RouteRecordRaw[] = [
         component: Point,
         beforeEnter: async () => {
             const pointStore = usePointStore();
-            pointStore.GET_POINTS();
+            await pointStore.GET_POINTS();
+        }
+    },
+    {
+        path: "/poster",
+        component: Post,
+        beforeEnter: async () => {
+            const postStore = usePostStore();
+            await postStore.GET_POSTS();
         }
     }
 ]
