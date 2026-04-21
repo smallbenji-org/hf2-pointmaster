@@ -8,7 +8,9 @@
                 <BButton type="primary" @click="open = true">Opret patrulje</BButton>
             </div>
         </div>
-        <BTable :data="PATRULJER" :columns="columns"></BTable>
+        <div class="container">
+            <BTable :data="PATRULJER" :columns="columns"></BTable>
+        </div>
         <BModal
             v-model="open"
             has-modal-card
