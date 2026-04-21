@@ -24,6 +24,9 @@ namespace Pointmaster
 
     public class Post
     {
+        public Post() {}
+        public Post(string name) { this.Name = name; }
+
         public int Id { get; set; }
         public string Name { get; set; }
     }

@@ -6,6 +6,7 @@ namespace Pointmaster.Repositories
         void AddPointRange(List<Point> points);
         Point GetPointById(int Id);
         List<Point> GetPointByPatrulje(int PatruljeId);
+        List<Point> GetAll();
     }
 
     public class DummyPointRepository : IPointRepository
@@ -33,6 +34,11 @@ namespace Pointmaster.Repositories
         public void AddPointRange(List<Point> points)
         {
             _points.AddRange(points);
+        }
+
+        public List<Point> GetAll()
+        {
+            return _points;
         }
     }
 }
