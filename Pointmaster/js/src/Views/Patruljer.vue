@@ -5,7 +5,7 @@
                 Patruljer
             </h1>
             <div class="actions">
-                <BButton type="primary" @click="open = true">Opret patrulje</BButton>
+                <BButton type="is-warning" @click="open = true">Opret patrulje</BButton>
             </div>
         </div>
         <div class="container">
@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 import { usePatruljeStore } from '@/Modules/PatruljeModule';
-import { BButton, BField, BModal } from 'buefy';
+import { BButton, BField, BModal, BTable } from 'buefy';
 import { ref } from 'vue';
 
 const patruljeStore = usePatruljeStore();
