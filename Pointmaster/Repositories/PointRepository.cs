@@ -100,11 +100,23 @@ namespace Pointmaster.Repositories
         {
             const string sql = @"
                 SELECT
-                    *
-                FROM points
+                    p.id, p.points, p.turnout,
+                    pa.id, pa.name,
+                    po.id, po.name
+                FROM points p
+                INNER JOIN patruljer pa ON p.patrulje_id = pa.id
+                INNER JOIN poster po ON p.post_id = po.id
             ";
             using var conn = db;
-            return (await db.QueryAsync<Point>(sql)).ToList();
+
+            var result = await db.QueryAsync<Point, Patrulje, Post, Point>(sql,
+            (point, patrulje, post) =>
+            {
+                point.Patrulje = patrulje;
+                point.Post = post;
+                return point;
+            }, splitOn: "id, id");
+            return result.ToList();
         }
 
         public async Task<Point> GetPointById(int Id)

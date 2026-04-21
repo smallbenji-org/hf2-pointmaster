@@ -75,8 +75,20 @@ const columns = [
         label: "ID"
     },
     {
-        field: "name",
-        label: "Navn"
+        field: "points",
+        label: "Point"
+    },
+    {
+        field: "turnout",
+        label: "Turnout"
+    },
+    {
+        field: "patrulje.name",
+        label: "Patrulje"
+    },
+    {
+        field: "post.name",
+        label: "Post"
     }
 ];
 
