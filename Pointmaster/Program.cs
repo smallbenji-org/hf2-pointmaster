@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IPostRepository, PostRepository>();
 builder.Services.AddSingleton<IPatruljeRepository, PatruljeRepository>();
-builder.Services.AddSingleton<IPointRepository, DummyPointRepository>();
+builder.Services.AddSingleton<IPointRepository, PointRepository>();
 
 var app = builder.Build();
 
