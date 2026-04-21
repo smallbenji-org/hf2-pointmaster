@@ -20,6 +20,5 @@ namespace Pointmaster.Controllers
 
             return Ok(retval);
         }
-
     }
 }
