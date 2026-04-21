@@ -1,0 +1,34 @@
+import axios, { type AxiosResponse } from "axios";
+
+export default class PostService {
+    public async getAll(): Promise<Post[]> {
+        try {
+            const reponse: AxiosResponse<Post[]> = await axios({
+                url: `/api/v1/post`,
+                method: "GET"
+            });
+
+            return Array.isArray(reponse.data) ? reponse.data : [];
+        } catch {
+            return [];
+        }
+    }
+
+    public async addPost(name: string) {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/post`,
+                method: "POST",
+                data: JSON.stringify(name)
+            });
+
+            if (response.status == 200) {
+                return true
+            }
+
+            return false;
+        } catch {
+            return false;
+        }
+    }
+}

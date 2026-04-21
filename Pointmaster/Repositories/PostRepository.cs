@@ -4,6 +4,7 @@ namespace Pointmaster.Repositories
     {
         void AddPost(Post data);
         Post GetPostById(int Id);
+        List<Post> GetAll();
     }
 
     public class DummyPostRepository : IPostRepository
@@ -21,6 +22,11 @@ namespace Pointmaster.Repositories
             data.Id = idCount;
             idCount++;
             _posts.Add(data);
+        }
+
+        public List<Post> GetAll()
+        {
+            return _posts;
         }
     }
 }
