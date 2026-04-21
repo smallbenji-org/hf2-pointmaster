@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { usePatruljeStore } from '../Modules/PatruljeModule';
+import { usePatruljeStore } from '@/Modules/PatruljeModule';
 
 const patruljeStore = usePatruljeStore();
 const { PATRULJER } = storeToRefs(patruljeStore);

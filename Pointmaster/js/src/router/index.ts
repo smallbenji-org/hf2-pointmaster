@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
-import Home from "../Views/Home.vue";
-import Test from "../Views/Test.vue";
-import { usePatruljeStore } from "../Modules/PatruljeModule";
-import Patruljer from "../Views/Patruljer.vue";
+import Home from "@/Views/Home.vue";
+import Test from "@/Views/Test.vue";
+import { usePatruljeStore } from "@/Modules/PatruljeModule";
+import Patruljer from "@/Views/Patruljer.vue";
 
 const routes: RouteRecordRaw[] = [
     {

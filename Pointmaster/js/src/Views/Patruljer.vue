@@ -29,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { usePatruljeStore } from '../Modules/PatruljeModule';
+import { usePatruljeStore } from '@/Modules/PatruljeModule';
 import { BButton, BField, BModal } from 'buefy';
 import { ref } from 'vue';
 

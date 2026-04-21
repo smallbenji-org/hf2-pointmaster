@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import PatruljeService from "../Services/PatruljeService";
+import PatruljeService from "@/Services/PatruljeService";
 import { computed, ref } from "vue";
 
 export const usePatruljeStore = defineStore('Patrulje', () => {
