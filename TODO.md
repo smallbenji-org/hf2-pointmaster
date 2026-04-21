@@ -1,7 +1,7 @@
 ## Generelt:
-- Opret Vue projekt
-- Opret API struktur
-- Importer design guide
+<!-- - Opret Vue projekt -->
+<!-- - Opret API struktur -->
+<!-- - Importer design guide -->
 <!-- - Opsæt basic model struktur -->
 <!-- - Opret interface og in memory DB, for nu -->
 
