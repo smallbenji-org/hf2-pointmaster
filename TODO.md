@@ -11,9 +11,9 @@
 <!-- - Opsæt basic layout -->
 
 ## Sider:
-- Rank liste
+<!-- - Rank liste -->
 - Seneste kampe
-- Deltager håndtering
+<!-- - Deltager håndtering -->
 - Registrer point
 
 ## Performance
