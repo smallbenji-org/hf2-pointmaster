@@ -14,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IPostRepository, PostRepository>();
 builder.Services.AddSingleton<IPatruljeRepository, PatruljeRepository>();
 builder.Services.AddSingleton<IPointRepository, PointRepository>();
+builder.Services.AddSingleton<ITenantRepository, TenantRepository>();
+builder.Services.AddSingleton<ITenantAccessService, TenantAccessService>();
 builder.Services.AddSingleton<IRoleStore<IdentityRole>, RoleStore>();
 builder.Services.AddSingleton<IUserStore<IdentityUser>, UserStore>();
 
@@ -47,11 +49,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
-app.MapControllers();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapFallbackToFile("index.html");
 

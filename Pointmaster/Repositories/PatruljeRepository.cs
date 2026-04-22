@@ -10,9 +10,9 @@ namespace Pointmaster.Repositories
     {
         Task AddPatrulje(Patrulje data);
         Task AddPatruljeRange(List<Patrulje> data);
-        Task<Patrulje> GetPatruljeById(int Id);
-        Task<List<Patrulje>> GetAll();
-        Task DeletePatrulje(int Id);
+        Task<Patrulje> GetPatruljeById(int Id, string tenantId);
+        Task<List<Patrulje>> GetAll(string tenantId);
+        Task DeletePatrulje(int Id, string tenantId);
     }
 
     public class DummyPatruljeRepository : IPatruljeRepository
@@ -20,7 +20,7 @@ namespace Pointmaster.Repositories
         private List<Patrulje> _patruljes = [];
         private int idCount = 0;
 
-        public async Task<Patrulje> GetPatruljeById(int Id)
+        public async Task<Patrulje> GetPatruljeById(int Id, string tenantId)
         {
             return _patruljes.FirstOrDefault(x => x.Id.Equals(Id));
         }
@@ -37,14 +37,14 @@ namespace Pointmaster.Repositories
             _patruljes.AddRange(data);
         }
 
-        public async Task<List<Patrulje>> GetAll()
+        public async Task<List<Patrulje>> GetAll(string tenantId)
         {
-            return _patruljes;
+            return _patruljes.Where(x => x.TenantId == tenantId).ToList();
         }
 
-        public async Task DeletePatrulje(int Id)
+        public async Task DeletePatrulje(int Id, string tenantId)
         {
-            var patrulje = _patruljes.FirstOrDefault(x => x.Id == Id);
+            var patrulje = _patruljes.FirstOrDefault(x => x.Id == Id && x.TenantId == tenantId);
 
             _patruljes.Remove(patrulje);
         }
@@ -64,8 +64,8 @@ namespace Pointmaster.Repositories
         public async Task AddPatrulje(Patrulje data)
         {
             const string sql = @"
-            INSERT INTO patruljer (name)
-            VALUES (@Name)
+            INSERT INTO patruljer (name, tenant_id)
+            VALUES (@Name, @TenantId)
             ";
             using var conn = db;
             await conn.ExecuteAsync(sql, data);
@@ -79,37 +79,38 @@ namespace Pointmaster.Repositories
             }
         }
 
-        public async Task<List<Patrulje>> GetAll()
+        public async Task<List<Patrulje>> GetAll(string tenantId)
         {
             const string sql = @"
             SELECT
                 *
             FROM patruljer
+            WHERE tenant_id = @tenantId
             ";
             using var conn = db;
-            return (await conn.QueryAsync<Patrulje>(sql)).ToList();
+            return (await conn.QueryAsync<Patrulje>(sql, new { tenantId })).ToList();
         }
 
-        public async Task<Patrulje> GetPatruljeById(int Id)
+        public async Task<Patrulje> GetPatruljeById(int Id, string tenantId)
         {
             const string sql = @"
             SELECT
                 *
             FROM patruljer
-            WHERE id = @Id
+            WHERE id = @Id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            return await conn.QueryFirstAsync<Patrulje>(sql, new { id = Id});
+            return await conn.QueryFirstOrDefaultAsync<Patrulje>(sql, new { id = Id, tenantId });
         }
 
-        public async Task DeletePatrulje(int Id)
+        public async Task DeletePatrulje(int Id, string tenantId)
         {
             const string sql = @"
             DELETE FROM patruljer
-            WHERE id = @id
+            WHERE id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            await conn.ExecuteAsync(sql, new { id = Id });
+            await conn.ExecuteAsync(sql, new { id = Id, tenantId });
         }
     }
 }

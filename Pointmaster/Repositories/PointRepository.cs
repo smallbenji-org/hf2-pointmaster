@@ -9,10 +9,10 @@ namespace Pointmaster.Repositories
     {
         Task AddPoint(Point point);
         Task AddPointRange(List<Point> points);
-        Task<Point> GetPointById(int Id);
-        Task<List<Point>> GetPointByPatrulje(int PatruljeId);
-        Task<List<Point>> GetAll();
-        Task DeletePoint(int Id);
+        Task<Point> GetPointById(int Id, string tenantId);
+        Task<List<Point>> GetPointByPatrulje(int PatruljeId, string tenantId);
+        Task<List<Point>> GetAll(string tenantId);
+        Task DeletePoint(int Id, string tenantId);
     }
 
     public class DummyPointRepository : IPointRepository
@@ -20,14 +20,14 @@ namespace Pointmaster.Repositories
         private List<Point> _points = [];
         private int idCount = 0;
 
-        public async Task<Point> GetPointById(int Id)
+        public async Task<Point> GetPointById(int Id, string tenantId)
         {
             return _points.FirstOrDefault(x => x.Id.Equals(Id));
         }
 
-        public async Task<List<Point>> GetPointByPatrulje(int PatruljeId)
+        public async Task<List<Point>> GetPointByPatrulje(int PatruljeId, string tenantId)
         {
-            return _points.Where(x => x.Patrulje.Id.Equals(PatruljeId)).ToList();
+            return _points.Where(x => x.Patrulje.Id.Equals(PatruljeId) && x.TenantId == tenantId).ToList();
         }
 
         public async Task AddPoint(Point point)
@@ -42,14 +42,14 @@ namespace Pointmaster.Repositories
             _points.AddRange(points);
         }
 
-        public async Task<List<Point>> GetAll()
+        public async Task<List<Point>> GetAll(string tenantId)
         {
-            return _points;
+            return _points.Where(x => x.TenantId == tenantId).ToList();
         }
 
-        public async Task DeletePoint(int Id)
+        public async Task DeletePoint(int Id, string tenantId)
         {
-            var point = _points.FirstOrDefault(x => x.Id == Id);
+            var point = _points.FirstOrDefault(x => x.Id == Id && x.TenantId == tenantId);
             _points.Remove(point);
         }
     }
@@ -71,11 +71,11 @@ namespace Pointmaster.Repositories
         public async Task AddPoint(Point point)
         {
             const string sql = @"
-                INSERT INTO points (points, turnout, patrulje_id, post_id)
-                VALUES (@point, @turnout, @patruljeId, @postId)
+                INSERT INTO points (points, turnout, patrulje_id, post_id, tenant_id)
+                VALUES (@point, @turnout, @patruljeId, @postId, @tenantId)
             ";
             using var conn = db;
-            await db.ExecuteAsync(sql, new { point = point.Points, turnout = point.Turnout, patruljeId = point.Patrulje.Id, postId = point.Post.Id });
+            await conn.ExecuteAsync(sql, new { point = point.Points, turnout = point.Turnout, patruljeId = point.Patrulje.Id, postId = point.Post.Id, tenantId = point.TenantId });
         }
 
         public async Task AddPointRange(List<Point> points)
@@ -86,61 +86,62 @@ namespace Pointmaster.Repositories
             }
         }
 
-        public async Task DeletePoint(int Id)
+        public async Task DeletePoint(int Id, string tenantId)
         {
             const string sql = @"
                 DELETE FROM points
-                WHERE id = @id
+                WHERE id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            await db.ExecuteAsync(sql, new { id = Id });
+            await conn.ExecuteAsync(sql, new { id = Id, tenantId });
         }
 
-        public async Task<List<Point>> GetAll()
+        public async Task<List<Point>> GetAll(string tenantId)
         {
             const string sql = @"
                 SELECT
-                    p.id, p.points, p.turnout,
-                    pa.id, pa.name,
-                    po.id, po.name
+                    p.id, p.points, p.turnout, p.tenant_id,
+                    pa.id, pa.name, pa.tenant_id,
+                    po.id, po.name, po.tenant_id
                 FROM points p
                 INNER JOIN patruljer pa ON p.patrulje_id = pa.id
                 INNER JOIN poster po ON p.post_id = po.id
+                WHERE p.tenant_id = @tenantId
             ";
             using var conn = db;
 
-            var result = await db.QueryAsync<Point, Patrulje, Post, Point>(sql,
+            var result = await conn.QueryAsync<Point, Patrulje, Post, Point>(sql,
             (point, patrulje, post) =>
             {
                 point.Patrulje = patrulje;
                 point.Post = post;
                 return point;
-            }, splitOn: "id, id");
+            }, new { tenantId }, splitOn: "id, id");
             return result.ToList();
         }
 
-        public async Task<Point> GetPointById(int Id)
+        public async Task<Point> GetPointById(int Id, string tenantId)
         {
             const string sql = @"
                 SELECT
                     *
                 FROM points
-                WHERE id = @id
+                WHERE id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            return await db.QueryFirstAsync<Point>(sql);
+            return await conn.QueryFirstOrDefaultAsync<Point>(sql, new { id = Id, tenantId });
         }
 
-        public async Task<List<Point>> GetPointByPatrulje(int PatruljeId)
+        public async Task<List<Point>> GetPointByPatrulje(int PatruljeId, string tenantId)
         {
             const string sql = @"
                 SELECT
                     *
                 FROM points
-                WHERE patrulje_id = @id
+                WHERE patrulje_id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            return (await db.QueryAsync<Point>(sql, new { id = PatruljeId })).ToList();
+            return (await conn.QueryAsync<Point>(sql, new { id = PatruljeId, tenantId })).ToList();
         }
     }
 }

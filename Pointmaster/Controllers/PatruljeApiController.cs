@@ -9,16 +9,46 @@ namespace Pointmaster.Controllers
     public class PatruljeApiController : Controller
     {
         private readonly IPatruljeRepository patruljeRepository;
+        private readonly ITenantAccessService tenantAccessService;
 
-        public PatruljeApiController(IPatruljeRepository patruljeRepository)
+        public PatruljeApiController(IPatruljeRepository patruljeRepository, ITenantAccessService tenantAccessService)
         {
             this.patruljeRepository = patruljeRepository;
+            this.tenantAccessService = tenantAccessService;
+        }
+
+        private async Task<string> GetAuthorizedTenantId(params string[] allowedRoles)
+        {
+            var tenantId = Request.Headers["X-Tenant-Id"].FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(tenantId))
+            {
+                return null;
+            }
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return null;
+            }
+
+            if (allowedRoles.Length == 0)
+            {
+                return await tenantAccessService.CanAccessTenant(userId, tenantId) ? tenantId : null;
+            }
+
+            return await tenantAccessService.IsInRole(userId, tenantId, allowedRoles) ? tenantId : null;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var retval = await patruljeRepository.GetAll();
+            var tenantId = await GetAuthorizedTenantId(TenantRoles.Administrator, TenantRoles.PostUser);
+            if (tenantId == null)
+            {
+                return Forbid();
+            }
+
+            var retval = await patruljeRepository.GetAll(tenantId);
 
             return Ok(retval);
         }
@@ -26,7 +56,13 @@ namespace Pointmaster.Controllers
         [HttpPost]
         public async Task<IActionResult> Index([FromBody] string name)
         {
-            await patruljeRepository.AddPatrulje(new Patrulje(name));
+            var tenantId = await GetAuthorizedTenantId(TenantRoles.Administrator);
+            if (tenantId == null)
+            {
+                return Forbid();
+            }
+
+            await patruljeRepository.AddPatrulje(new Patrulje(name, tenantId));
 
             return Ok();
         }
@@ -34,7 +70,13 @@ namespace Pointmaster.Controllers
         [HttpDelete]
         public async Task<IActionResult> Index([FromBody] int id)
         {
-            await patruljeRepository.DeletePatrulje(id);
+            var tenantId = await GetAuthorizedTenantId(TenantRoles.Administrator);
+            if (tenantId == null)
+            {
+                return Forbid();
+            }
+
+            await patruljeRepository.DeletePatrulje(id, tenantId);
 
             return Ok();
         }

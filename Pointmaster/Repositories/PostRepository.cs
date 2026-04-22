@@ -8,9 +8,9 @@ namespace Pointmaster.Repositories
     public interface IPostRepository
     {
         Task AddPost(Post data);
-        Task<Post> GetPostById(int Id);
-        Task<List<Post>> GetAll();
-        Task DeletePost(int Id);
+        Task<Post> GetPostById(int Id, string tenantId);
+        Task<List<Post>> GetAll(string tenantId);
+        Task DeletePost(int Id, string tenantId);
     }
 
     public class DummyPostRepository : IPostRepository
@@ -18,7 +18,7 @@ namespace Pointmaster.Repositories
         private List<Post> _posts = [];
         private int idCount = 0;
 
-        public async Task<Post> GetPostById(int Id)
+        public async Task<Post> GetPostById(int Id, string tenantId)
         {
             return _posts.FirstOrDefault(x => x.Id.Equals(Id));
         }
@@ -30,14 +30,14 @@ namespace Pointmaster.Repositories
             _posts.Add(data);
         }
 
-        public async Task<List<Post>> GetAll()
+        public async Task<List<Post>> GetAll(string tenantId)
         {
-            return _posts;
+            return _posts.Where(x => x.TenantId == tenantId).ToList();
         }
 
-        public async Task DeletePost(int Id)
+        public async Task DeletePost(int Id, string tenantId)
         {
-            var post = _posts.FirstOrDefault(x => x.Id == Id);
+            var post = _posts.FirstOrDefault(x => x.Id == Id && x.TenantId == tenantId);
             _posts.Remove(post);
         }
     }
@@ -56,44 +56,45 @@ namespace Pointmaster.Repositories
         public async Task AddPost(Post data)
         {
             const string sql = @"
-            INSERT INTO poster (name)
-            VALUES (@Name)
+            INSERT INTO poster (name, tenant_id)
+            VALUES (@Name, @TenantId)
             ";
             using var conn = db;
-            await db.ExecuteAsync(sql, data);
+            await conn.ExecuteAsync(sql, data);
         }
 
-        public async Task DeletePost(int Id)
+        public async Task DeletePost(int Id, string tenantId)
         {
             const string sql = @"
             DELETE FROM poster
-            WHERE id = @id
+            WHERE id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            await db.ExecuteAsync(sql, new { id = Id });
+            await conn.ExecuteAsync(sql, new { id = Id, tenantId });
         }
 
-        public async Task<List<Post>> GetAll()
+        public async Task<List<Post>> GetAll(string tenantId)
         {
             const string sql = @"
             SELECT
                 *
             FROM poster
+            WHERE tenant_id = @tenantId
             ";
             using var conn = db;
-            return (await db.QueryAsync<Post>(sql)).ToList();
+            return (await conn.QueryAsync<Post>(sql, new { tenantId })).ToList();
         }
 
-        public async Task<Post> GetPostById(int Id)
+        public async Task<Post> GetPostById(int Id, string tenantId)
         {
             const string sql = @"
             SELECT
                 *
             FROM poster
-            WHERE id = @id
+            WHERE id = @id AND tenant_id = @tenantId
             ";
             using var conn = db;
-            return await db.QueryFirstAsync(sql, new { id = Id });
+            return await conn.QueryFirstOrDefaultAsync<Post>(sql, new { id = Id, tenantId });
         }
     }
 }
