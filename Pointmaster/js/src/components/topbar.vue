@@ -44,17 +44,17 @@ watch(
             </b-navbar-item>
         </template>
         <template #end>
-            <b-navbar-item tag="div">
+            <b-navbar-item tag="div" v-if="isLoggedIn">
                 <router-link to="/patruljer" class="button is-primary">
                     Patruljer
                 </router-link>
             </b-navbar-item>
-            <b-navbar-item tag="div">
+            <b-navbar-item tag="div" v-if="isLoggedIn">
                 <router-link to="/poster" class="button is-primary">
                     Poster
                 </router-link>
             </b-navbar-item>
-            <b-navbar-item tag="div">
+            <b-navbar-item tag="div" v-if="isLoggedIn">
                 <router-link to="/point" class="button is-primary">
                     Point
                 </router-link>

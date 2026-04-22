@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pointmaster.Repositories;
 
 namespace Pointmaster.Controllers
 {
     [Route("/api/v1/points")]
+    [Authorize]
     public class PointApiController : Controller
     {
         private readonly IPointRepository pointRepository;

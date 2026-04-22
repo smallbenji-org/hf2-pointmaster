@@ -9,6 +9,7 @@ import { usePostStore } from "@/Modules/PostModule";
 import { useStatsStore } from "@/Modules/StatsModule";
 import Login from "@/Views/Login.vue";
 import Register from "@/Views/Register.vue";
+import AuthService from "@/Services/AuthService";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -25,6 +26,9 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: async () => {
             const patruljeStore = usePatruljeStore();
             await patruljeStore.GET_PATRULJER();
+        },
+        meta: {
+            requiresAuth: true
         }
     },
     {
@@ -37,6 +41,9 @@ const routes: RouteRecordRaw[] = [
             await pointStore.GET_POINTS();
             await postStore.GET_POSTS();
             await patruljeStore.GET_PATRULJER();
+        },
+        meta: {
+            requiresAuth: true
         }
     },
     {
@@ -45,6 +52,9 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: async () => {
             const postStore = usePostStore();
             await postStore.GET_POSTS();
+        },
+        meta: {
+            requiresAuth: true
         }
     },
     {
@@ -60,6 +70,20 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authService = new AuthService();
+    const result = await authService.me();
+
+    const isProtected = to.matched.some(record => record.meta.requiresAuth);
+    const isAuthenticated = result.authenticated;
+
+    if (isProtected && !isAuthenticated) {
+        next({ path: "/login"})
+    } else {
+        next();
+    }
 });
 
 export default router;
