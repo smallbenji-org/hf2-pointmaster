@@ -1,15 +1,30 @@
 <template>
     <div class="home">
-        <h1>Welcome home</h1>
-        <p v-for="patrulje in PATRULJER">
-            {{ patrulje.name }}
-        </p>
+        <div class="hero is-primary">
+            <div class="hero-body">
+                <p class="title is-4">Velkommen tilbage</p>
+            </div>
+        </div>
+        <section class="section">
+            <div class="grid">
+                <div class="cell">
+                    <div class="box">
+                        <p>Turnout goes here...</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="box">
+                        <p>sum goes here</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="box">
+                        <p>total points goes here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia';
-import { usePatruljeStore } from '@/Modules/PatruljeModule';
-
-const patruljeStore = usePatruljeStore();
-const { PATRULJER } = storeToRefs(patruljeStore);
 </script>
