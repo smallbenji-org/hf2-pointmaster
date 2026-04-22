@@ -2,7 +2,7 @@
     <div class="members container">
         <div class="members-topbar">
             <h1 class="title is-4">Medlemmer</h1>
-            <BButton type="is-warning" @click="open = true">Tilfoej bruger</BButton>
+            <BButton type="is-warning" @click="open = true">Tilføj bruger</BButton>
         </div>
 
         <BTable :data="Members">
@@ -11,7 +11,7 @@
             </BTableColumn>
             <BTableColumn label="Rolle" field="roleName" v-slot="props">
                 <div class="is-flex is-align-items-center is-gap-2">
-                    <span>{{ props.row.roleName }}</span>
+                    <!-- <span>{{ props.row.roleName }}</span> -->
                     <div class="select is-small">
                         <select
                             :value="props.row.roleName"
@@ -36,7 +36,7 @@
                             <option value="PostUser">PostUser</option>
                         </BSelect>
                     </BField>
-                    <BButton type="is-primary" @click="addMember">Tilfoej</BButton>
+                    <BButton type="is-primary" @click="addMember">Tilføj</BButton>
                 </section>
             </div>
         </BModal>

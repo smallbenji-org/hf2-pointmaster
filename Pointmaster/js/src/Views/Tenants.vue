@@ -10,7 +10,7 @@
                 </BTableColumn>
                 <BTableColumn label="Handling" v-slot="props">
                     <BButton type="is-primary is-small" @click="chooseTenant(props.row.id)">
-                        Vaelg
+                        Vælg
                     </BButton>
                 </BTableColumn>
             </BTable>
