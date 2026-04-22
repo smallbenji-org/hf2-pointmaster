@@ -6,14 +6,15 @@ import Point from "@/Views/Point.vue";
 import { usePointStore } from "@/Modules/PointModule";
 import Post from "@/Views/Post.vue";
 import { usePostStore } from "@/Modules/PostModule";
+import { useStatsStore } from "@/Modules/StatsModule";
 
 const routes: RouteRecordRaw[] = [
     {
         path: "/",
         component: Home,
         beforeEnter: async () => {
-            const patruljeStore = usePatruljeStore();
-            await patruljeStore.GET_PATRULJER();
+            const statsStore = useStatsStore();
+            await statsStore.GET_POINT_STATS();
         }
     },
     {

@@ -22,3 +22,10 @@ declare type PointDTO = {
     patrulje: number
     post: number
 }
+
+declare type pointStats = {
+    patruljeName: string
+    totalPoints: number
+    totalTurnout: number
+    combinedTotal: number
+}
