@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div class="hero is-primary">
+        <div class="hero is-info">
             <div class="hero-body">
                 <p class="title is-4">Velkommen tilbage</p>
             </div>
