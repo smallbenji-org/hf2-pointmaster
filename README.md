@@ -1,14 +1,15 @@
 # Pointmaster
 The master of controlling points
 
-## How to run?
-- Node: v20.20.0
-- Postgresql: v16
+## Requirements
+- Node.js v20.20.0
+- PostgreSQL v16
+- .NET SDK compatible with the solution target
 
 ### Build frontend
 ```bash
 cd Pointmaster/js
-npm i
+npm install
 npm run build
 ```
 ### Build backend
@@ -17,25 +18,36 @@ dotnet restore
 dotnet build
 ```
 
-### Run inside Docker instead
-How to TBD...
-
-### Environment variables needed
-When running inside Docker, no configuration needed.
-When running locally in vscode, use .env file, example file is in the repository
-When running locally in visual studio:
-```
-DB__DefaultConnection: <postgresql connection string>
-```
-## Local dev environment
-
-### Docker
+### Local development
+Start PostgreSQL first:
 ```bash
 docker compose -f docker-compose.dev.yaml up -d
 ```
 
-### Podman
+If you prefer Podman:
 ```bash
 podman compose -f docker-compose.dev.yaml up -d
 ```
+
+The backend reads its connection string from `PointMaster__ConnectionString`.
+Copy `.env.example` to `.env` and set it before running the API locally, for example:
+```bash
+export PointMaster__ConnectionString="Host=localhost;Port=5432;Database=pointmaster;Username=postgres;Password=mysecretpassword"
+```
+
+Then run the backend:
+```bash
+dotnet run --project Pointmaster/Pointmaster.csproj
+```
+
+For frontend development:
+```bash
+cd Pointmaster/js
+npm install
+npm run dev
+```
+
+### Notes
+- The repository includes `.env.example` with `PointMaster__ConnectionString`.
+- The Docker compose file only starts PostgreSQL; it does not run the API or frontend.
 
