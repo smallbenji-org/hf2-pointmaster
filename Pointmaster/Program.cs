@@ -1,4 +1,5 @@
 using DbUp;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Pointmaster;
 using Pointmaster.Repositories;
@@ -13,6 +14,14 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IPostRepository, PostRepository>();
 builder.Services.AddSingleton<IPatruljeRepository, PatruljeRepository>();
 builder.Services.AddSingleton<IPointRepository, PointRepository>();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 4;
+    options.Password.RequireDigit = false;
+    options.SignIn.RequireConfirmedAccount = false;
+});
 
 var app = builder.Build();
 
@@ -29,5 +38,8 @@ DeployChanges
     .LogToConsole()
     .Build()
     .PerformUpgrade();
+
+
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 app.Run();
