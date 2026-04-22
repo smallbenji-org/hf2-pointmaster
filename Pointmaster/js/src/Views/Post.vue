@@ -4,7 +4,7 @@
             <h1 class="title is-4">
                 Post
             </h1>
-            <div class="actions">
+            <div class="actions" v-if="isAdmin">
                 <BButton type="is-warning" @click="open = true">Opret Post</BButton>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <BTableColumn label="Navn" field="name" v-slot="props">
                     {{ props.row.name }}
                 </BTableColumn>
-                <BTableColumn v-slot="props">
+                <BTableColumn v-slot="props" v-if="isAdmin">
                     <div class="buttons">
                         <BButton type="is-small is-danger" @click="deletePost(props.row.id)">Slet</BButton>
                     </div>
@@ -41,17 +41,26 @@
 </template>
 <script lang="ts" setup>
 import { usePostStore } from '@/Modules/PostModule';
+import { useAuthStore } from '@/Modules/AuthModule';
 import { BButton, BTable, BModal, BField } from 'buefy';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 const postStore = usePostStore();
+const authStore = useAuthStore();
 const { POST } = storeToRefs(postStore);
+const { IS_ADMIN } = storeToRefs(authStore);
+
+const isAdmin = IS_ADMIN;
 
 const open = ref(false);
 const newName = ref<string>("");
 
 const createPost = async () => {
+    if (!isAdmin.value) {
+        return;
+    }
+
     open.value = false;
     await postStore.ADD_POST(newName.value);
     await postStore.GET_POSTS();
@@ -59,6 +68,10 @@ const createPost = async () => {
 };
 
 const deletePost = async (id: number) => {
+    if (!isAdmin.value) {
+        return;
+    }
+
     await postStore.DELETE_POST(id);
     await postStore.GET_POSTS();
 }

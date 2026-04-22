@@ -9,8 +9,9 @@ import { usePostStore } from "@/Modules/PostModule";
 import { useStatsStore } from "@/Modules/StatsModule";
 import Login from "@/Views/Login.vue";
 import Register from "@/Views/Register.vue";
-import AuthService from "@/Services/AuthService";
 import { useAuthStore } from "@/Modules/AuthModule";
+import Members from "@/Views/Members.vue";
+import Tenants from "@/Views/Tenants.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -19,6 +20,10 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: async () => {
             const statsStore = useStatsStore();
             await statsStore.GET_POINT_STATS();
+        },
+        meta: {
+            requiresAuth: true,
+            requiresTenant: true
         }
     },
     {
@@ -29,7 +34,9 @@ const routes: RouteRecordRaw[] = [
             await patruljeStore.GET_PATRULJER();
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            requiresTenant: true,
+            allowRoles: ['Administrator', 'PostUser']
         }
     },
     {
@@ -44,7 +51,9 @@ const routes: RouteRecordRaw[] = [
             await patruljeStore.GET_PATRULJER();
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            requiresTenant: true,
+            allowRoles: ['Administrator', 'PostUser']
         }
     },
     {
@@ -53,6 +62,32 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: async () => {
             const postStore = usePostStore();
             await postStore.GET_POSTS();
+        },
+        meta: {
+            requiresAuth: true,
+            requiresTenant: true,
+            allowRoles: ['Administrator', 'PostUser']
+        }
+    },
+    {
+        path: "/members",
+        component: Members,
+        beforeEnter: async () => {
+            const authStore = useAuthStore();
+            await authStore.LOAD_MEMBERS();
+        },
+        meta: {
+            requiresAuth: true,
+            requiresTenant: true,
+            allowRoles: ['Administrator']
+        }
+    },
+    {
+        path: "/tenants",
+        component: Tenants,
+        beforeEnter: async () => {
+            const authStore = useAuthStore();
+            await authStore.REFRESH_TENANTS();
         },
         meta: {
             requiresAuth: true
@@ -73,24 +108,41 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
     const authStore = useAuthStore();
 
-    if (!authStore.Me) {
+    if (!authStore.ME) {
         await authStore.GET_ME();
     }
 
-    const result = authStore.Me;
+    const result = authStore.ME;
 
     const isProtected = to.matched.some(record => record.meta.requiresAuth);
+    const requiresTenant = to.matched.some(record => record.meta.requiresTenant);
+    const roleRequirements = to.matched
+        .flatMap(record => (record.meta.allowRoles as TenantRole[] | undefined) ?? []);
 
     const isAuthenticated = result?.authenticated ?? false;
+    const activeTenant = authStore.ACTIVE_TENANT_ID;
+    const role = authStore.ROLE;
+    const isSuperUser = result?.isSuperUser ?? false;
 
     if (isProtected && !isAuthenticated) {
-        next({ path: "/login"})
-    } else {
-        next();
+        return next({ path: "/login"});
     }
+
+    if (isProtected && requiresTenant && !activeTenant) {
+        return next({ path: "/tenants" });
+    }
+
+    if (isProtected && roleRequirements.length > 0 && !isSuperUser) {
+        const allowed = roleRequirements.some(r => r === role);
+        if (!allowed) {
+            return next({ path: "/" });
+        }
+    }
+
+    return next();
 });
 
 export default router;

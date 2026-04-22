@@ -1,11 +1,16 @@
 import axios, { type AxiosResponse } from "axios";
+import { getTenantHeaders } from "./tenantHeaders";
 
 export default class PointService {
     public async getAll(): Promise<Point[]> {
         try {
             const reponse: AxiosResponse<Point[]> = await axios({
                 url: `/api/v1/points`,
-                method: "GET"
+                method: "GET",
+                withCredentials: true,
+                headers: {
+                    ...getTenantHeaders()
+                }
             });
 
             return Array.isArray(reponse.data) ? reponse.data : [];
@@ -20,8 +25,10 @@ export default class PointService {
                 url: `/api/v1/points`,
                 method: "POST",
                 data: JSON.stringify(data),
+                withCredentials: true,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    ...getTenantHeaders()
                 }
             });
 
@@ -41,8 +48,10 @@ export default class PointService {
                 url: `/api/v1/points`,
                 method: "DELETE",
                 data: JSON.stringify(data),
+                withCredentials: true,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    ...getTenantHeaders()
                 }
             });
 

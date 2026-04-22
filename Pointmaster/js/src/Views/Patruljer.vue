@@ -4,7 +4,7 @@
             <h1 class="title is-4">
                 Patruljer
             </h1>
-            <div class="actions">
+            <div class="actions" v-if="isAdmin">
                 <BButton type="is-warning" @click="open = true">Opret patrulje</BButton>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <BTableColumn label="Navn" field="name" v-slot="props">
                     {{ props.row.name }}
                 </BTableColumn>
-                <BTableColumn v-slot="props">
+                <BTableColumn v-slot="props" v-if="isAdmin">
                     <div class="buttons">
                         <BButton type="is-small is-danger" @click="deletePatrulje(props.row.id)">Slet</BButton>
                     </div>
@@ -42,17 +42,26 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 import { usePatruljeStore } from '@/Modules/PatruljeModule';
+import { useAuthStore } from '@/Modules/AuthModule';
 import { BButton, BField, BModal, BTable, BTableColumn } from 'buefy';
 import { ref } from 'vue';
 
 const patruljeStore = usePatruljeStore();
+const authStore = useAuthStore();
 const { PATRULJER } = storeToRefs(patruljeStore);
+const { IS_ADMIN } = storeToRefs(authStore);
+
+const isAdmin = IS_ADMIN;
 
 const open = ref(false);
 
 const newName = ref<string>("");
 
 const createPatrulje = async () => {
+    if (!isAdmin.value) {
+        return;
+    }
+
     open.value = false;
     await patruljeStore.ADD_PATRULJE(newName.value);
     await patruljeStore.GET_PATRULJER();
@@ -60,6 +69,10 @@ const createPatrulje = async () => {
 }
 
 const deletePatrulje = async (id: number) => {
+    if (!isAdmin.value) {
+        return;
+    }
+
     await patruljeStore.DELETE_PATRULJE(id);
     await patruljeStore.GET_PATRULJER();
 }

@@ -4,7 +4,7 @@
             <h1 class="title is-4">
                 Point
             </h1>
-            <div class="actions">
+            <div class="actions" v-if="canGivePoints">
                 <BButton type="is-warning" @click="open = true">Opret Point</BButton>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     {{ props.row.turnout }}
                 </BTableColumn>
 
-                <BTableColumn v-slot="props">
+                <BTableColumn v-slot="props" v-if="isAdmin">
                     <div class="buttons">
                         <BButton
                             type="is-small is-danger"
@@ -88,6 +88,7 @@
 import { usePatruljeStore } from '@/Modules/PatruljeModule';
 import { usePointStore } from '@/Modules/PointModule';
 import { usePostStore } from '@/Modules/PostModule';
+import { useAuthStore } from '@/Modules/AuthModule';
 import { BButton, BTable, BModal, BSelect, BInput, BField, BTableColumn } from 'buefy';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
@@ -95,9 +96,14 @@ import { ref } from 'vue';
 const pointStore = usePointStore();
 const patruljeStore = usePatruljeStore();
 const postStore = usePostStore();
+const authStore = useAuthStore();
 const { POINT } = storeToRefs(pointStore);
 const { PATRULJER } = storeToRefs(patruljeStore);
 const { POST } = storeToRefs(postStore);
+const { CAN_GIVE_POINTS, IS_ADMIN } = storeToRefs(authStore);
+
+const canGivePoints = CAN_GIVE_POINTS;
+const isAdmin = IS_ADMIN;
 
 const open = ref(false);
 const data = ref<PointDTO>({
@@ -108,6 +114,10 @@ const data = ref<PointDTO>({
 });
 
 const createPoint = async () => {
+    if (!canGivePoints.value) {
+        return;
+    }
+
     if (data.value){
         await pointStore.CREATE_POINT(data.value);
     }
@@ -125,6 +135,10 @@ const createPoint = async () => {
 }
 
 const deletePoint = async (data: number) => {
+    if (!isAdmin.value) {
+        return;
+    }
+
     await pointStore.DELETE_POINT(data);
     await pointStore.GET_POINTS();
 }

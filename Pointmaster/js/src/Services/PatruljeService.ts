@@ -1,4 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
+import { getTenantHeaders } from "./tenantHeaders";
 
 export default class PatruljeService {
     public async getAll(): Promise<Patrulje[]> {
@@ -6,6 +7,10 @@ export default class PatruljeService {
             const response: AxiosResponse<Patrulje[]> = await axios({
                 url: `/api/v1/patrulje`,
                 method: "GET",
+                withCredentials: true,
+                headers: {
+                    ...getTenantHeaders()
+                }
             });
 
             return Array.isArray(response.data) ? response.data : [];
@@ -20,8 +25,10 @@ export default class PatruljeService {
                 url: `/api/v1/patrulje`,
                 method: "POST",
                 data: JSON.stringify(name),
+                withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    ...getTenantHeaders()
                 }
             });
 
@@ -39,8 +46,10 @@ export default class PatruljeService {
                 url: `/api/v1/patrulje`,
                 method: "DELETE",
                 data: JSON.stringify(id),
+                withCredentials: true,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    ...getTenantHeaders()
                 }
             });
 

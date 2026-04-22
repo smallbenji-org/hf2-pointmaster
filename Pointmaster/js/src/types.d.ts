@@ -1,12 +1,14 @@
 declare type Patrulje = {
     id: number
     name: string
+    tenantId: string
 }
 
 declare type Point = {
     id: number
     points: number
     turnout: number
+    tenantId: string
     patrulje: Patrulje
     post: Post
 }
@@ -14,6 +16,21 @@ declare type Point = {
 declare type Post = {
     id: number
     name: string
+    tenantId: string
+}
+
+declare type Tenant = {
+    id: string
+    name: string
+}
+
+declare type TenantRole = 'SuperUser' | 'Administrator' | 'PostUser'
+
+declare type TenantMember = {
+    userId: string
+    username: string
+    tenantId: string
+    roleName: TenantRole
 }
 
 declare type PointDTO = {
@@ -33,4 +50,8 @@ declare type pointStats = {
 declare type Me = {
     authenticated: boolean
     username: string | null
+    isSuperUser: boolean
+    currentTenantId: string | null
+    role: TenantRole | null
+    tenants: Tenant[]
 }
