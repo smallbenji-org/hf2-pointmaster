@@ -99,29 +99,6 @@ const { POINT } = storeToRefs(pointStore);
 const { PATRULJER } = storeToRefs(patruljeStore);
 const { POST } = storeToRefs(postStore);
 
-// const columns = [
-//     {
-//         field: "id",
-//         label: "ID"
-//     },
-//     {
-//         field: "patrulje.name",
-//         label: "Patrulje"
-//     },
-//     {
-//         field: "post.name",
-//         label: "Post"
-//     },
-//     {
-//         field: "points",
-//         label: "Point"
-//     },
-//     {
-//         field: "turnout",
-//         label: "Turnout"
-//     },
-// ];
-
 const open = ref(false);
 const data = ref<PointDTO>({
     patrulje: 0,
