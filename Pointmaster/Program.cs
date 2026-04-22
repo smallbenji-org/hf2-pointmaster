@@ -29,6 +29,22 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddRoleStore<RoleStore>()
 .AddUserStore<UserStore>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnRedirectToLogin = context => {
+        if (context.Request.Path.StartsWithSegments("/api"))
+        {
+            context.Response.StatusCode = 401;
+        }
+        else
+        {
+            context.Response.Redirect(context.RedirectUri);
+        }
+
+        return Task.CompletedTask;
+    };
+});
+
 var app = builder.Build();
 
 app.MapControllers();

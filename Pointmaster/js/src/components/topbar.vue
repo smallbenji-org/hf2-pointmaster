@@ -59,13 +59,10 @@ watch(
                     Point
                 </router-link>
             </b-navbar-item>
-            <b-navbar-item tag="div">
-                <router-link to="/login" class="button is-light" v-if="!isLoggedIn">
+            <b-navbar-item tag="div" v-if="!isLoggedIn">
+                <router-link to="/login" class="button is-light">
                     Login
                 </router-link>
-                <span class="auth-state" v-else>
-                    Logged in as {{ username ?? 'user' }}
-                </span>
             </b-navbar-item>
             <b-navbar-item tag="div">
                 <router-link to="/register" class="button is-warning" v-if="!isLoggedIn">
