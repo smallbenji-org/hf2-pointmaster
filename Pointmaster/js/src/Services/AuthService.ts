@@ -43,9 +43,9 @@ export default class AuthService {
         }
     }
 
-    public async me(): Promise<{ authenticated: boolean; username: string | null }> {
+    public async me(): Promise<Me> {
         try {
-            const response: AxiosResponse<{ username?: string }> = await axios({
+            const response: AxiosResponse<Me> = await axios({
                 url: '/api/v1/auth/me',
                 method: 'GET',
                 withCredentials: true

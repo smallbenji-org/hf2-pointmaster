@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import AuthService from '@/Services/AuthService';
+import { useAuthStore } from '@/Modules/AuthModule';
 import { BNavbar, BNavbarItem } from 'buefy';
+import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-const authService = new AuthService();
+const authStore = useAuthStore();
+const auth = storeToRefs(authStore);
+
 const route = useRoute();
 
 const isLoggedIn = ref(false);
 const username = ref<string | null>(null);
 
 const refreshAuthStatus = async () => {
-    const result = await authService.me();
-    isLoggedIn.value = result.authenticated;
-    username.value = result.username;
+    const result = auth.ME.value;
+    if (result) {
+        isLoggedIn.value = result.authenticated;
+        username.value = result.username;
+    }
 };
 
 const logout = async () => {
-    const success = await authService.logout();
-
+    const success = await authStore.LOGOUT();
     if (success) {
         await refreshAuthStatus();
     }

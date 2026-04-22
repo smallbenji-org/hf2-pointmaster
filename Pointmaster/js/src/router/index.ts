@@ -10,6 +10,7 @@ import { useStatsStore } from "@/Modules/StatsModule";
 import Login from "@/Views/Login.vue";
 import Register from "@/Views/Register.vue";
 import AuthService from "@/Services/AuthService";
+import { useAuthStore } from "@/Modules/AuthModule";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -73,11 +74,17 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    const authService = new AuthService();
-    const result = await authService.me();
+    const authStore = useAuthStore();
+
+    if (!authStore.Me) {
+        await authStore.GET_ME();
+    }
+
+    const result = authStore.Me;
 
     const isProtected = to.matched.some(record => record.meta.requiresAuth);
-    const isAuthenticated = result.authenticated;
+
+    const isAuthenticated = result?.authenticated ?? false;
 
     if (isProtected && !isAuthenticated) {
         next({ path: "/login"})

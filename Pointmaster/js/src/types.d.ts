@@ -29,3 +29,8 @@ declare type pointStats = {
     totalTurnout: number
     combinedTotal: number
 }
+
+declare type Me = {
+    authenticated: boolean
+    username: string | null
+}

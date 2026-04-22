@@ -16,12 +16,12 @@
 </template>
 
 <script lang="ts" setup>
-import AuthService from '@/Services/AuthService';
+import { useAuthStore } from '@/Modules/AuthModule';
 import { BButton, BField, BInput } from 'buefy';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const authService = new AuthService();
+const authModule = useAuthStore();
 const router = useRouter();
 
 const username = ref('');
@@ -38,7 +38,7 @@ const submitLogin = async () => {
     }
 
     loading.value = true;
-    const result = await authService.login(username.value, password.value);
+    const result = await authModule.LOGIN(username.value, password.value);
     loading.value = false;
 
     success.value = result.success;
