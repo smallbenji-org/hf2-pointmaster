@@ -1,5 +1,5 @@
 <template>
-    <div class="Post">
+    <div class="post">
         <div class="container post-topbar">
             <h1 class="title is-4">
                 Post
@@ -9,14 +9,14 @@
             </div>
         </div>
         <div class="container">
-            <BTable :data="POST">
+            <BTable :data="POST" class="table">
                 <BTableColumn label="ID" field="id" v-slot="props">
                     {{ props.row.id }}
                 </BTableColumn>
                 <BTableColumn label="Navn" field="name" v-slot="props">
                     {{ props.row.name }}
                 </BTableColumn>
-                <BTableColumn label="Handlinger" v-slot="props">
+                <BTableColumn v-slot="props">
                     <div class="buttons">
                         <BButton type="is-small is-danger" @click="deletePost(props.row.id)">Slet</BButton>
                     </div>
@@ -66,6 +66,12 @@ const deletePost = async (id: number) => {
 </script>
 <style lang="scss">
 .post {
+    table {
+        .buttons {
+            justify-content: flex-end;
+        }
+    }
+
     &-topbar {
         display: flex;
         justify-content: space-between;

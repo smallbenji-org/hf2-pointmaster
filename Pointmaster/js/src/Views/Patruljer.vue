@@ -16,7 +16,7 @@
                 <BTableColumn label="Navn" field="name" v-slot="props">
                     {{ props.row.name }}
                 </BTableColumn>
-                <BTableColumn label="Handlinger" v-slot="props">
+                <BTableColumn v-slot="props">
                     <div class="buttons">
                         <BButton type="is-small is-danger" @click="deletePatrulje(props.row.id)">Slet</BButton>
                     </div>
@@ -73,6 +73,12 @@ const deletePatrulje = async (id: number) => {
 
     th {
         text-align: left;
+    }
+
+    table {
+        .buttons {
+            justify-content: flex-end;
+        }
     }
 
     &-topbar {

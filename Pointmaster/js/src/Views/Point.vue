@@ -30,7 +30,7 @@
                     {{ props.row.turnout }}
                 </BTableColumn>
 
-                <BTableColumn label="Handlinger" v-slot="props">
+                <BTableColumn v-slot="props">
                     <div class="buttons">
                         <BButton
                             type="is-small is-danger"
@@ -132,6 +132,12 @@ const deletePoint = async (data: number) => {
 </script>
 <style lang="scss">
 .point {
+    table {
+        .buttons {
+            justify-content: flex-end;
+        }
+    }
+
     &-topbar {
         display: flex;
         justify-content: space-between;
