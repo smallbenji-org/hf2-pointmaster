@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Topbar from '@/components/topbar.vue';
+import Footer from './components/footer.vue';
 
 </script>
 
@@ -8,13 +9,23 @@ import Topbar from '@/components/topbar.vue';
   <main>
     <router-view></router-view>
   </main>
+  <Footer></Footer>
 </template>
 
 <style lang="scss">
 :root {
   color-scheme: light;
   overflow-y: auto;
+}
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 // body {
