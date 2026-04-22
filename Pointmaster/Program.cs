@@ -14,12 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IPostRepository, PostRepository>();
 builder.Services.AddSingleton<IPatruljeRepository, PatruljeRepository>();
 builder.Services.AddSingleton<IPointRepository, PointRepository>();
+builder.Services.AddSingleton<IRoleStore<IdentityRole>, RoleStore>();
+builder.Services.AddSingleton<IUserStore<IdentityUser>, UserStore>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 4;
-    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
     options.SignIn.RequireConfirmedAccount = false;
 })
 .AddRoleStore<RoleStore>()
@@ -30,6 +34,8 @@ var app = builder.Build();
 app.MapControllers();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapFallbackToFile("index.html");
 

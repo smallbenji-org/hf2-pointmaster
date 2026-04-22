@@ -21,8 +21,8 @@ namespace Pointmaster.Repositories
         public async Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken)
         {
             const string sql = @"
-            INSERT INTO roles (id, name, normalized_name, description)
-            VALUES (@Id, @Name, @NormalizedName, @Description)";
+            INSERT INTO roles (id, name, normalized_name, concurrency_stamp)
+            VALUES (@Id, @Name, @NormalizedName, @ConcurrencyStamp)";
             using IDbConnection db = Connection;
             await db.ExecuteAsync(sql, role);
             return IdentityResult.Success;
@@ -34,7 +34,7 @@ namespace Pointmaster.Repositories
             UPDATE roles
             SET name = @Name,
                 normalized_name = @NormalizedName,
-                description = @Description
+                concurrency_stamp = @ConcurrencyStamp
             WHERE id = @Id";
             using IDbConnection db = Connection;
             await db.ExecuteAsync(sql, role);
@@ -51,14 +51,28 @@ namespace Pointmaster.Repositories
 
         public async Task<IdentityRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
-            const string sql = "SELECT * FROM roles WHERE id = @Id";
+            const string sql = @"
+            SELECT
+                id AS Id,
+                name AS Name,
+                normalized_name AS NormalizedName,
+                concurrency_stamp AS ConcurrencyStamp
+            FROM roles
+            WHERE id = @Id";
             using IDbConnection db = Connection;
             return await db.QuerySingleOrDefaultAsync<IdentityRole>(sql, new { Id = roleId });
         }
 
         public async Task<IdentityRole> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            const string sql = "SELECT * FROM roles WHERE normalized_name = @NormalizedName";
+            const string sql = @"
+            SELECT
+                id AS Id,
+                name AS Name,
+                normalized_name AS NormalizedName,
+                concurrency_stamp AS ConcurrencyStamp
+            FROM roles
+            WHERE normalized_name = @NormalizedName";
             using IDbConnection db = Connection;
             return await db.QuerySingleOrDefaultAsync<IdentityRole>(sql, new { NormalizedName = normalizedRoleName });
         }
@@ -100,8 +114,9 @@ namespace Pointmaster.Repositories
 
         public async Task<IdentityResult> CreateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            var sql = "INSERT INTO users (id, username, normalized_username, password_hash, full_name) " +
-                      "VALUES (@Id, @UserName, @NormalizedUserName, @PasswordHash, @FullName)";
+            const string sql = @"
+            INSERT INTO users (id, username, normalized_username, password_hash, security_stamp, concurrency_stamp)
+            VALUES (@Id, @UserName, @NormalizedUserName, @PasswordHash, @SecurityStamp, @ConcurrencyStamp)";
             using NpgsqlConnection db = Connection;
             await db.ExecuteAsync(sql, user);
             return IdentityResult.Success;
@@ -109,7 +124,16 @@ namespace Pointmaster.Repositories
 
         public async Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var sql = "SELECT * FROM users WHERE normalized_username = @NormalizedUserName";
+            const string sql = @"
+            SELECT
+                id AS Id,
+                username AS UserName,
+                normalized_username AS NormalizedUserName,
+                password_hash AS PasswordHash,
+                security_stamp AS SecurityStamp,
+                concurrency_stamp AS ConcurrencyStamp
+            FROM users
+            WHERE normalized_username = @NormalizedUserName";
             using NpgsqlConnection db = Connection;
             return await db.QueryFirstOrDefaultAsync<IdentityUser>(sql, new { NormalizedUserName = normalizedUserName.ToUpper() });
         }
@@ -157,8 +181,14 @@ namespace Pointmaster.Repositories
 
         public Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            var sql = "UPDATE users SET username = @UserName, normalized_username = @NormalizedUserName, " +
-                      "password_hash = @PasswordHash, full_name = @FullName WHERE id = @Id";
+            const string sql = @"
+            UPDATE users
+            SET username = @UserName,
+                normalized_username = @NormalizedUserName,
+                password_hash = @PasswordHash,
+                security_stamp = @SecurityStamp,
+                concurrency_stamp = @ConcurrencyStamp
+            WHERE id = @Id";
             using NpgsqlConnection db = Connection;
             db.Execute(sql, user);
             return Task.FromResult(IdentityResult.Success);
@@ -166,7 +196,16 @@ namespace Pointmaster.Repositories
 
         public async Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var sql = "SELECT * FROM users WHERE id = @Id";
+            const string sql = @"
+            SELECT
+                id AS Id,
+                username AS UserName,
+                normalized_username AS NormalizedUserName,
+                password_hash AS PasswordHash,
+                security_stamp AS SecurityStamp,
+                concurrency_stamp AS ConcurrencyStamp
+            FROM users
+            WHERE id = @Id";
             using NpgsqlConnection db = Connection;
             return await db.QueryFirstOrDefaultAsync<IdentityUser>(sql, new { Id = userId });
         }

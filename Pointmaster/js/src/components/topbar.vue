@@ -1,5 +1,36 @@
 <script setup lang="ts">
+import AuthService from '@/Services/AuthService';
 import { BNavbar, BNavbarItem } from 'buefy';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const authService = new AuthService();
+const route = useRoute();
+
+const isLoggedIn = ref(false);
+const username = ref<string | null>(null);
+
+const refreshAuthStatus = async () => {
+    const result = await authService.me();
+    isLoggedIn.value = result.authenticated;
+    username.value = result.username;
+};
+
+const logout = async () => {
+    const success = await authService.logout();
+
+    if (success) {
+        await refreshAuthStatus();
+    }
+};
+
+watch(
+    () => route.fullPath,
+    async () => {
+        await refreshAuthStatus();
+    },
+    { immediate: true }
+);
 
 </script>
 
@@ -28,10 +59,36 @@ import { BNavbar, BNavbarItem } from 'buefy';
                     Point
                 </router-link>
             </b-navbar-item>
+            <b-navbar-item tag="div">
+                <router-link to="/login" class="button is-light" v-if="!isLoggedIn">
+                    Login
+                </router-link>
+                <span class="auth-state" v-else>
+                    Logged in as {{ username ?? 'user' }}
+                </span>
+            </b-navbar-item>
+            <b-navbar-item tag="div">
+                <router-link to="/register" class="button is-warning" v-if="!isLoggedIn">
+                    Register
+                </router-link>
+                <button class="button is-danger" v-else @click="logout">
+                    Logout
+                </button>
+            </b-navbar-item>
         </template>
     </b-navbar>
 </template>
 <style lang="scss">
+.auth-state {
+    font-size: 0.95rem;
+    color: #2f855a;
+    font-weight: 600;
+}
+
+.is-offline {
+    color: #4a5568;
+}
+
 // .topbar {
 //     // border-bottom: 1px solid black;
 //     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);

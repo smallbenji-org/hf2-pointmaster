@@ -7,6 +7,8 @@ import { usePointStore } from "@/Modules/PointModule";
 import Post from "@/Views/Post.vue";
 import { usePostStore } from "@/Modules/PostModule";
 import { useStatsStore } from "@/Modules/StatsModule";
+import Login from "@/Views/Login.vue";
+import Register from "@/Views/Register.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -44,6 +46,14 @@ const routes: RouteRecordRaw[] = [
             const postStore = usePostStore();
             await postStore.GET_POSTS();
         }
+    },
+    {
+        path: "/login",
+        component: Login
+    },
+    {
+        path: "/register",
+        component: Register
     }
 ]
 
