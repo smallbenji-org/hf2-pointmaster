@@ -6,7 +6,7 @@
             </div>
         </div>
         <section class="section">
-            <div class="grid">
+            <div class="grid is-col-min-10">
                 <div class="cell">
                     <div class="box">
                         <p>Turnout goes here...</p>
