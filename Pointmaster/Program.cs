@@ -21,7 +21,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 4;
     options.Password.RequireDigit = false;
     options.SignIn.RequireConfirmedAccount = false;
-});
+})
+.AddRoleStore<RoleStore>()
+.AddUserStore<UserStore>();
 
 var app = builder.Build();
 
