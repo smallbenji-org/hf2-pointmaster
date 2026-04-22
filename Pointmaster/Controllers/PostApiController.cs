@@ -28,5 +28,13 @@ namespace Pointmaster.Controllers
 
             return Ok();
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Index([FromBody] int id)
+        {
+            await postRepository.DeletePost(id);
+
+            return Ok();
+        }
     }
 }

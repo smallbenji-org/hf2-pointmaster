@@ -22,9 +22,15 @@ export const usePostStore = defineStore('Post', () => {
         return data;
     }
 
+    async function DELETE_POST(id: number) {
+        const data = await postService.deletePost(id);
+
+        return data;
+    }
+
     return {
         Post,
         POST,
-        GET_POSTS, ADD_POST
+        GET_POSTS, ADD_POST, DELETE_POST
     }
 });

@@ -34,4 +34,24 @@ export default class PostService {
             return false;
         }
     }
+
+    public async deletePost(id: number) {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/post`,
+                method: "DELETE",
+                data: JSON.stringify(id),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200) {
+                return true;
+            }
+            return false;
+        } catch {
+            return false;
+        }
+    }
 }
