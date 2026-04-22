@@ -6,34 +6,37 @@
             </div>
         </div>
         <section class="section">
-            <div class="grid is-col-min-10">
-                <div class="cell">
-                    <div class="box">
-                        <p class="subtitle is-5">Turnout</p>
-                        <hr>
-                        <p v-for="item in turnoutSorted" :key="item.patruljeName">
-                            <strong>{{ item.patruljeName }}:</strong> {{ item.totalTurnout }}
-                        </p>
-                    </div>
-                </div>
+            <div class="container">
 
-                <div class="cell">
-                    <div class="box">
-                        <p class="subtitle is-5">Samlet Score</p>
-                        <hr>
-                        <p v-for="item in totalSorted" :key="item.patruljeName">
-                            <strong>{{ item.patruljeName }}:</strong> {{ item.combinedTotal }}
-                        </p>
+                <div class="grid is-col-min-10">
+                    <div class="cell">
+                        <div class="box">
+                            <p class="subtitle is-5">Turnout</p>
+                            <hr>
+                            <p v-for="item in turnoutSorted" :key="item.patruljeName">
+                                <strong>{{ item.patruljeName }}:</strong> {{ item.totalTurnout }}
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="cell">
-                    <div class="box">
-                        <p class="subtitle is-5">Post Point</p>
-                        <hr>
-                        <p v-for="item in pointsSorted" :key="item.patruljeName">
-                            <strong>{{ item.patruljeName }}:</strong> {{ item.totalPoints }}
-                        </p>
+                    <div class="cell">
+                        <div class="box">
+                            <p class="subtitle is-5">Samlet Score</p>
+                            <hr>
+                            <p v-for="item in totalSorted" :key="item.patruljeName">
+                                <strong>{{ item.patruljeName }}:</strong> {{ item.combinedTotal }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cell">
+                        <div class="box">
+                            <p class="subtitle is-5">Post Point</p>
+                            <hr>
+                            <p v-for="item in pointsSorted" :key="item.patruljeName">
+                                <strong>{{ item.patruljeName }}:</strong> {{ item.totalPoints }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
