@@ -10,11 +10,13 @@
 <!-- - Opsæt pinia -->
 <!-- - Opsæt basic layout -->
 
+<!-- ## Performance -->
+<!-- - Lighthouse score i top -->
 ## Sider:
 <!-- - Rank liste -->
 - Seneste kampe
 <!-- - Deltager håndtering -->
 - Registrer point
-
-## Performance
-- Lighthouse score i top
+- Input validering
+- Code splitting
+- Færdiggør README
