@@ -11,6 +11,7 @@
     <PackageReference Include="dbup" Version="5.0.41" />
     <PackageReference Include="dbup-postgresql" Version="7.0.1" />
     <PackageReference Include="Npgsql" Version="10.0.2" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
   </ItemGroup>
 
 </Project>
