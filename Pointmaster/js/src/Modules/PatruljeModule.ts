@@ -16,14 +16,19 @@ export const usePatruljeStore = defineStore('Patrulje', () => {
         return data;
     }
 
-    async function ADD_PATRULJE(name: string){
+    async function ADD_PATRULJE(name: string) {
         const data = await patruljeService.addPatrulje(name);
+        return data;
+    }
+
+    async function DELETE_PATRULJE(id: number) {
+        const data = await patruljeService.deletePatrulje(id);
         return data;
     }
 
     return {
         Patruljer,
         PATRULJER,
-        GET_PATRULJER, ADD_PATRULJE
+        GET_PATRULJER, ADD_PATRULJE, DELETE_PATRULJE
     }
 });

@@ -32,4 +32,25 @@ export default class PatruljeService {
             return false;
         }
     }
+
+    public async deletePatrulje(id: number): Promise<boolean> {
+        try {
+            const response: AxiosResponse = await axios({
+                url: `/api/v1/patrulje`,
+                method: "DELETE",
+                data: JSON.stringify(id),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200) {
+                return true;
+            }
+
+            return false;
+        } catch {
+            return false;
+        }
+    }
 }
