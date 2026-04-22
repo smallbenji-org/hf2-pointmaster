@@ -31,11 +31,11 @@ DB__DefaultConnection: <postgresql connection string>
 
 ### Docker
 ```bash
-docker compose up -d -f docker-compose.dev.yaml
+docker compose -f docker-compose.dev.yaml up -d
 ```
 
 ### Podman
 ```bash
-podman compose up -d -f docker-compose.dev.yaml
+podman compose -f docker-compose.dev.yaml up -d
 ```
 
