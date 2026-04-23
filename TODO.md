@@ -17,6 +17,7 @@
 - Seneste kampe
 <!-- - Deltager håndtering -->
 - Registrer point
+- Tenant system skal virke mere flydende
 - Input validering
 - Code splitting
 - Færdiggør README
