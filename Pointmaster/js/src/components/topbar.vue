@@ -4,7 +4,6 @@ import { BNavbar, BNavbarItem } from 'buefy';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import TenantPicker from './tenantPicker.vue';
 
 const authStore = useAuthStore();
 const auth = storeToRefs(authStore);
