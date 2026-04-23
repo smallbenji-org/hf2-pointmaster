@@ -20,6 +20,7 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: async () => {
             const statsStore = useStatsStore();
             await statsStore.GET_POINT_STATS();
+            await statsStore.GET_LATEST_MATCHES();
         },
         meta: {
             requiresAuth: true,

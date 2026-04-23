@@ -45,6 +45,29 @@ namespace Pointmaster.Controllers
 
             return Ok(retval);
         }
+
+        [HttpGet("latestmatches")]
+        public async Task<IActionResult> LatestMatches()
+        {
+            var tenantId = Request.Headers["X-Tenant-Id"].FirstOrDefault();
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(tenantId) || string.IsNullOrWhiteSpace(userId))
+            {
+                return Forbid();
+            }
+
+            var canAccess = await tenantAccessService.CanAccessTenant(userId, tenantId);
+            if (!canAccess)
+            {
+                return Forbid();
+            }
+
+            var data = await pointRepository.GetAll(tenantId);
+
+            var retval = data.OrderBy(x => x.Id).Take(5);
+
+            return Ok(retval);
+        }
     }
 
     public class statViewModel

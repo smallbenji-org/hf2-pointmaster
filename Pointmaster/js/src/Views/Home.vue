@@ -41,6 +41,16 @@
                 </div>
             </div>
         </section>
+        <section class="section">
+            <div class="container">
+                <p class="title is-6">
+                    Sidste 5 kampe
+                </p>
+                <p v-for="match in LATEST_MATCHES">
+                    {{ match.patrulje.name }} - p: {{ match.points }} | t: {{ match.turnout }} | s: {{ match.points + match.turnout }}
+                </p>
+            </div>
+        </section>
     </div>
 </template>
 <script lang="ts" setup>
@@ -49,7 +59,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 const statsStore = useStatsStore();
-const { POINT_STATS } = storeToRefs(statsStore);
+const { POINT_STATS, LATEST_MATCHES } = storeToRefs(statsStore);
 
 const pointsSorted = computed(() =>
     [...POINT_STATS.value].sort((a, b) => b.totalPoints - a.totalPoints)
