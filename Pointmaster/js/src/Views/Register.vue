@@ -53,7 +53,7 @@ const submitRegister = async () => {
 
 <style lang="scss" scoped>
 .auth-page {
-    min-height: calc(100vh - 80px);
+    // min-height: calc(100vh - 80px);
     display: grid;
     place-items: center;
     padding: 1rem;

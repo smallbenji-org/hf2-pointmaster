@@ -52,7 +52,7 @@ const submitLogin = async () => {
 
 <style lang="scss" scoped>
 .auth-page {
-    min-height: calc(100vh - 80px);
+    min-height: 100%;
     display: grid;
     place-items: center;
     padding: 1rem;

@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/Modules/AuthModule';
-import { usePointStore } from '@/Modules/PointModule';
-import { useStatsStore } from '@/Modules/StatsModule';
 import { BNavbar, BNavbarItem } from 'buefy';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-
-const pointStore = usePointStore();
-const statsStore = useStatsStore();
+import TenantPicker from './tenantPicker.vue';
 
 const authStore = useAuthStore();
 const auth = storeToRefs(authStore);
@@ -19,7 +15,6 @@ const isLoggedIn = ref(false);
 const username = ref<string | null>(null);
 const selectedTenant = ref<string>('');
 
-const tenants = computed(() => authStore.TENANTS);
 const isAdmin = computed(() => authStore.IS_ADMIN);
 
 const refreshAuthStatus = async () => {
@@ -40,17 +35,6 @@ const logout = async () => {
     if (success) {
         await refreshAuthStatus();
     }
-};
-
-const onTenantChanged = async () => {
-    if (!selectedTenant.value) {
-        return;
-    }
-
-    authStore.SET_ACTIVE_TENANT(selectedTenant.value);
-    await authStore.GET_ME();
-    await pointStore.GET_POINTS();
-    await statsStore.GET_POINT_STATS();
 };
 
 watch(
@@ -97,16 +81,6 @@ watch(
                 <router-link to="/members" class="button is-link">
                     Medlemmer
                 </router-link>
-            </b-navbar-item>
-            <b-navbar-item tag="div" v-if="isLoggedIn">
-                <div class="select is-small">
-                    <select v-model="selectedTenant" @change="onTenantChanged">
-                        <option value="" disabled>Vælg event</option>
-                        <option v-for="tenant in tenants" :key="tenant.id" :value="tenant.id">
-                            {{ tenant.name }}
-                        </option>
-                    </select>
-                </div>
             </b-navbar-item>
             <b-navbar-item tag="div" v-if="!isLoggedIn">
                 <router-link to="/login" class="button is-light">
