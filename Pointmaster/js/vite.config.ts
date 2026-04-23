@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath } from 'url'
+import VitePluginVueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), VitePluginVueDevTools()],
   resolve: {
     alias: {
        "@": fileURLToPath(new URL("./src", import.meta.url))
@@ -13,6 +14,6 @@ export default defineConfig({
   build: {
     outDir: "../wwwroot/",
     emptyOutDir: true,
-    cssMinify: "esbuild"
+    cssMinify: "esbuild",
   }
 })

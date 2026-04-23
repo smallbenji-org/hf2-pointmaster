@@ -14,10 +14,10 @@
 <!-- - Lighthouse score i top -->
 ## Sider:
 <!-- - Rank liste -->
-- Seneste kampe
+<!-- - Seneste kampe -->
 <!-- - Deltager håndtering -->
+- Code splitting
 - Registrer point
 - Tenant system skal virke mere flydende
 - Input validering
-- Code splitting
 - Færdiggør README
