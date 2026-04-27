@@ -15,5 +15,10 @@ export default defineConfig({
     outDir: "../wwwroot/",
     emptyOutDir: true,
     cssMinify: "esbuild",
+    rolldownOptions: {
+      output: {
+        codeSplitting: true
+      }
+    }
   }
 })
