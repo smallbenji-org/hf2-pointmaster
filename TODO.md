@@ -12,7 +12,7 @@
 
 <!-- ## Performance -->
 <!-- - Lighthouse score i top -->
-## Sider:
+<!-- ## Sider: -->
 <!-- - Rank liste -->
 <!-- - Seneste kampe -->
 <!-- - Deltager håndtering -->
