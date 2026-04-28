@@ -22,9 +22,9 @@ RUN npm run build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./pointMaster.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Pointmaster.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-COPY --from=node-build /wwwroot/js/dist /app/publish/wwwroot/js/dist
+COPY --from=node-build /wwwroot/ /app/publish/wwwroot/
 
 FROM base AS final
 WORKDIR /app
