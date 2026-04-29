@@ -10,6 +10,7 @@ namespace Pointmaster.Repositories
     {
         Task AddPatrulje(Patrulje data);
         Task AddPatruljeRange(List<Patrulje> data);
+        Task<Patrulje> GetPatruljeById(int Id);
         Task<Patrulje> GetPatruljeById(int Id, string tenantId);
         Task<List<Patrulje>> GetAll(string tenantId);
         Task DeletePatrulje(int Id, string tenantId);
@@ -21,6 +22,11 @@ namespace Pointmaster.Repositories
         private int idCount = 0;
 
         public async Task<Patrulje> GetPatruljeById(int Id, string tenantId)
+        {
+            return _patruljes.FirstOrDefault(x => x.Id.Equals(Id));
+        }
+
+        public async Task<Patrulje> GetPatruljeById(int Id)
         {
             return _patruljes.FirstOrDefault(x => x.Id.Equals(Id));
         }
@@ -101,6 +107,18 @@ namespace Pointmaster.Repositories
             ";
             using var conn = db;
             return await conn.QueryFirstOrDefaultAsync<Patrulje>(sql, new { id = Id, tenantId });
+        }
+
+        public async Task<Patrulje> GetPatruljeById(int Id)
+        {
+            const string sql = @"
+            SELECT
+                *
+            FROM patruljer
+            WHERE id = @Id
+            ";
+            using var conn = db;
+            return await conn.QueryFirstOrDefaultAsync<Patrulje>(sql, new { id = Id });
         }
 
         public async Task DeletePatrulje(int Id, string tenantId)

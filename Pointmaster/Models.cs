@@ -46,6 +46,26 @@ namespace Pointmaster
         public Post Post { get; set; }
     }
 
+    public class GivPointOverviewItem
+    {
+        public Post Post { get; set; }
+        public Point Point { get; set; }
+        public bool Visited => Point != null;
+    }
+
+    public class GivPointOverview
+    {
+        public Patrulje Patrulje { get; set; }
+        public List<GivPointOverviewItem> Posts { get; set; } = [];
+    }
+
+    public class GivPointUpdateDTO
+    {
+        public int post { get; set; }
+        public int point { get; set; }
+        public int turnout { get; set; }
+    }
+
     public class Post
     {
         public Post() {}
