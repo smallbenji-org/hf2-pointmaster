@@ -47,7 +47,7 @@
                     Sidste 5 kampe
                 </p>
                 <p v-for="match in LATEST_MATCHES">
-                    {{ match.patrulje.name }} - p: {{ match.points }} | t: {{ match.turnout }} | s: {{ match.points + match.turnout }}
+                    {{ match.patrulje.name }} - {{ match.post.name }} - p: {{ match.points }} | t: {{ match.turnout }} | s: {{ match.points + match.turnout }}
                 </p>
             </div>
         </section>
