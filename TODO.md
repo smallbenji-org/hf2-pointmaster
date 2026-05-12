@@ -16,8 +16,8 @@
 <!-- - Rank liste -->
 <!-- - Seneste kampe -->
 <!-- - Deltager håndtering -->
-- Code splitting
-- Registrer point
-- Tenant system skal virke mere flydende
-- Input validering
-- Færdiggør README
+<!-- - Code splitting -->
+<!-- - Registrer point --> 
+<!-- - Tenant system skal virke mere flydende -->
+<!-- - Input validering                       -->
+<!-- - Færdiggør README                       -->
