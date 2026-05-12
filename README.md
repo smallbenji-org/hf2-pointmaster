@@ -1,10 +1,12 @@
 # Pointmaster
 The master of controlling points
 
+## Prerequisite
+
 ## Requirements
 - Node.js v20.20.0
-- PostgreSQL v16
-- .NET SDK compatible with the solution target
+- PostgreSQL v16 (Docker version)
+- .NET 10
 
 ### Build frontend
 ```bash
