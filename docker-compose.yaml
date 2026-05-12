@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - PointMaster__ConnectionString=Host=db;Port=5432;Database=pointmaster;Username=postgres;Password=mysecretpassword
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: docker.io/postgres:16
+    environment:
+      - POSTGRES_DB=pointmaster
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pointmaster"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
