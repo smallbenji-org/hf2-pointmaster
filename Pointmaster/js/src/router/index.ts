@@ -12,6 +12,11 @@ import Register from "@/Views/Register.vue";
 import { useAuthStore } from "@/Modules/AuthModule";
 import Members from "@/Views/Members.vue";
 import Tenants from "@/Views/Tenants.vue";
+import GivPoint from "@/Views/GivPoint.vue";
+
+const SelectPost = {
+    template: '<div></div>'
+};
 
 const routes: RouteRecordRaw[] = [
     {
@@ -101,6 +106,32 @@ const routes: RouteRecordRaw[] = [
     {
         path: "/register",
         component: Register
+    },
+    {
+        path: "/givpoint/:patruljeId",
+        component: GivPoint,
+        beforeEnter: async () => {
+            const postStore = usePostStore();
+            await postStore.GET_POSTS();
+        }
+    },
+    {
+        path: "/selectpost/:postId",
+        component: SelectPost,
+        beforeEnter: async (to) => {
+            const postStore = usePostStore();
+            postStore.SET_SELECTED_POST(String(to.params.postId));
+
+            const nextRoute = typeof to.query.next === 'string' && to.query.next.length > 0
+                ? to.query.next
+                : '/';
+
+            return { path: nextRoute };
+        },
+        meta: {
+            requiresAuth: true,
+            requiresTenant: true
+        }
     }
 ]
 

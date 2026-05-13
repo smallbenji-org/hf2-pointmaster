@@ -13,6 +13,29 @@ declare type Point = {
     post: Post
 }
 
+declare type GivPointOverviewItem = {
+    post: Post
+    point: Point | null
+    visited: boolean
+}
+
+declare type GivPointOverview = {
+    patrulje: Patrulje
+    posts: GivPointOverviewItem[]
+}
+
+declare type GivPointUpdateDTO = {
+    post: number
+    point: number
+    turnout: number
+}
+
+declare type ApiResult<T> = {
+    success: boolean
+    message: string
+    data: T | null
+}
+
 declare type Post = {
     id: number
     name: string
